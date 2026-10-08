@@ -1,0 +1,17 @@
+{
+  "name": "secure-qr-attendance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Short-lived HMAC-signed QR authentication demo for event check-in",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

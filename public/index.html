@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101827">
+    <title>CampusPass | Secure event check-in</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="CampusPass home">
+          <span class="brand-mark" aria-hidden="true">C</span>
+          <span>Campus<span class="brand-light">Pass</span></span>
+        </a>
+        <div id="security-status" class="security-status"><span class="status-dot"></span> Protected check-in</div>
+      </header>
+      <div id="deployment-notice" class="deployment-notice" role="status" hidden>
+        Demo deployment: attendance and replay protection are temporary and may reset.
+      </div>
+
+      <section id="login-view" class="login-layout">
+        <div class="intro">
+          <p class="eyebrow">CAMPUS EVENTS, VERIFIED</p>
+          <h1>One scan.<br><span>Real attendance.</span></h1>
+          <p class="intro-copy">Secure event access with QR codes that expire quickly and can only be used once.</p>
+          <div class="feature-list">
+            <div><span class="feature-icon">01</span><span><strong>Signed by the server</strong><small>QR content cannot be forged or changed</small></span></div>
+            <div><span class="feature-icon">02</span><span><strong>Fresh every minute</strong><small>Short-lived codes help limit screenshot replay</small></span></div>
+            <div><span class="feature-icon">03</span><span><strong>Single-use check-in</strong><small>Duplicate scans are rejected immediately</small></span></div>
+          </div>
+        </div>
+        <form id="login-form" class="panel login-panel">
+          <div class="panel-icon" aria-hidden="true">↗</div>
+          <p class="eyebrow">WELCOME TO CAMPUSPASS</p>
+          <h2>Sign in</h2>
+          <p class="muted">Use your attendee or event staff account.</p>
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" required>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button class="button primary full" type="submit">Continue <span aria-hidden="true">→</span></button>
+          <p id="login-message" class="message" role="status"></p>
+          <p id="demo-hint" class="demo-hint">Local demo: <strong>student</strong> / <strong>student123</strong> or <strong>staff</strong> / <strong>scanner123</strong></p>
+        </form>
+      </section>
+
+      <section id="app-view" class="app-view" hidden>
+        <div class="welcome-row">
+          <div><p class="eyebrow">CAMPUS TECH FEST 2026</p><h1 id="welcome-title">Your event pass</h1></div>
+          <button id="logout-button" class="button quiet" type="button">Sign out</button>
+        </div>
+
+        <section id="attendee-view" class="content-grid" hidden>
+          <div class="panel pass-panel">
+            <div class="pass-heading"><div><p class="eyebrow">YOUR SECURE PASS</p><h2>Ready to check in?</h2></div><span class="live-pill"><span class="status-dot"></span> LIVE</span></div>
+            <p class="muted">Show this code to event staff. It refreshes automatically and expires in 60 seconds.</p>
+            <div class="qr-frame"><img id="qr-image" alt="Your time-limited event check-in QR code"></div>
+            <div class="expiry-row"><span class="status-dot"></span><span id="expiry-label">Preparing your pass…</span></div>
+            <p id="qr-message" class="message" role="status"></p>
+          </div>
+          <aside class="panel event-panel">
+            <p class="eyebrow">EVENT DETAILS</p><h2>Campus Tech Fest 2026</h2>
+            <div class="detail"><span>Access</span><strong>Registered attendee</strong></div>
+            <div class="detail"><span>Pass security</span><strong>Signed · one-time use</strong></div>
+            <div class="notice"><span aria-hidden="true">ⓘ</span><p>Keep your QR code on this screen. A screenshot may be copied and presented before your live pass expires.</p></div>
+          </aside>
+        </section>
+
+        <section id="scanner-view" class="content-grid scanner-grid" hidden>
+          <div class="panel scanner-panel">
+            <div class="pass-heading"><div><p class="eyebrow">STAFF SCANNER</p><h2>Verify an attendee</h2></div><span class="live-pill">STAFF</span></div>
+            <p class="muted">Scan the attendee’s live QR code. The server verifies its signature, event, expiry, and one-time status.</p>
+            <div class="camera-box">
+              <video id="camera-video" playsinline hidden></video>
+              <div id="camera-placeholder" class="camera-placeholder"><span aria-hidden="true">▦</span><strong>Camera scanner</strong><small>Allow camera access to scan a live QR code</small></div>
+            </div>
+            <div class="button-row">
+              <button id="camera-button" class="button primary" type="button">Open camera</button>
+              <button id="stop-camera-button" class="button secondary" type="button" hidden>Stop camera</button>
+            </div>
+            <div class="separator"><span>OR ENTER TOKEN</span></div>
+            <form id="token-form">
+              <label for="token-input">QR token</label>
+              <textarea id="token-input" rows="3" placeholder="Paste the scanned QR token" required spellcheck="false"></textarea>
+              <button class="button secondary full" type="submit">Verify and check in <span aria-hidden="true">→</span></button>
+            </form>
+            <div id="scan-result" class="scan-result" role="status" aria-live="polite" hidden></div>
+          </div>
+          <aside class="panel attendance-panel">
+            <p class="eyebrow">CHECK-IN ACTIVITY</p><h2>Recent attendees</h2>
+            <ul id="attendance-list" class="attendance-list"><li class="empty-state">No check-ins yet.</li></ul>
+          </aside>
+        </section>
+      </section>
+      <footer><span>CampusPass</span><span>Cryptographically protected event access</span></footer>
+    </main>
+  </body>
+</html>
